@@ -17,16 +17,16 @@ Explanation: 3 is a peak element and your function should return the index numbe
 """
 
 class Solution:
-	def findPeakElement(self, nums: List[int]) -> int:
-		"""
-		Time: O(logN)
-		Space: O(1)
-		"""
-		lo, hi = 0, len(nums) - 1
-		while lo < hi:
-			mid = lo + (hi - lo) // 2
-			if nums[mid] < nums[mid + 1]:
-				lo = mid + 1
-			else:
-				hi = mid
-		return lo
+    def findPeakElement(self, nums: List[int]) -> int:
+        """
+        Time: O(logN)
+        Space: O(1)
+        """
+        lo, hi = 0, len(nums) - 1
+        while lo < hi:
+            mid = lo + (hi - lo) // 2
+            if nums[mid] < nums[mid + 1]:
+                lo = mid + 1
+            else:
+                hi = mid
+        return lo

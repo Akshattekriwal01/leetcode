@@ -13,38 +13,38 @@ If you have figured out the O(n) solution, try coding another solution of which 
 """
 
 class Solution:
-	def minSubArrayLen1(self, s: int, nums: List[int]) -> int:
-		"""
-		two pointer
-		Time: O(N)
-		Space: O(1)
-		"""
-		l, r = 0, 0
-		window_sum = 0
-		res = float("inf")
-		while r < len(s):
-			windom_sum += nums[r]
-			while window_sum >= s:
-				res = min(res, r - l + 1)
-				window_sum -= nums[l]
-				l += 1
-			r += 1
-		return res if res != float("inf") else -1
+    def minSubArrayLen1(self, s: int, nums: List[int]) -> int:
+        """
+        two pointer
+        Time: O(N)
+        Space: O(1)
+        """
+        l, r = 0, 0
+        window_sum = 0
+        res = float("inf")
+        while r < len(s):
+            windom_sum += nums[r]
+            while window_sum >= s:
+                res = min(res, r - l + 1)
+                window_sum -= nums[l]
+                l += 1
+            r += 1
+        return res if res != float("inf") else -1
 
-	def minSubArrayLen1(self, s: int, nums: List[iint]) -> int:
-		"""
-		binary serach
-		Time: O(NlogN)
-		Space: O(N)
-		"""
-		import bisect
-		prefix = [0]
-		curr_sum = 0
-		res = float("inf")
-		for i, num in enumerate(nums):
-			curr_sum += num
-			j = bisect.bisect_right(prefix, curr_sum - s) - 1
-			if j >= 0: # bug alert
-				res = min(res, i - j + 1)
-			prefix.append(curr_sum)
-		return res if res != float("inf") else -1
+    def minSubArrayLen1(self, s: int, nums: List[iint]) -> int:
+        """
+        binary serach
+        Time: O(NlogN)
+        Space: O(N)
+        """
+        import bisect
+        prefix = [0]
+        curr_sum = 0
+        res = float("inf")
+        for i, num in enumerate(nums):
+            curr_sum += num
+            j = bisect.bisect_right(prefix, curr_sum - s) - 1
+            if j >= 0: # bug alert
+                res = min(res, i - j + 1)
+            prefix.append(curr_sum)
+        return res if res != float("inf") else -1

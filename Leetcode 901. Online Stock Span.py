@@ -9,12 +9,12 @@ For example, if the price of a stock over the next 7 days were [100, 80, 60, 70,
 """
 
 class Solution:
-	def __init__(self):
-		self.stack = []
+    def __init__(self):
+        self.stack = []
 
-	def next(self, price: int) -> int:
-		res = 1
-		while self.stack and price <= self.stack[-1][0]:
-			res += self.stack.pop()[1]
-		self.stack.append((price, res))
-		return res
+    def next(self, price: int) -> int:
+        res = 1
+        while self.stack and price <= self.stack[-1][0]:
+            res += self.stack.pop()[1]
+        self.stack.append((price, res))
+        return res

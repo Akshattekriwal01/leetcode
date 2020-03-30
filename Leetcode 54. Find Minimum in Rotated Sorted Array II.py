@@ -16,20 +16,20 @@ Output: 1
 """
 
 class Solution:
-	def findMin(self, nums: List[int]) -> int:
-		"""
-		Time: O(N), worst case when all values are the same
-		Space: O(1) 
-		"""
-		lo, hi = 0, len(nums) - 1
-		while lo < hi:
-			while lo < hi and nums[lo] == nums[lo + 1]:
-				lo += 1
-			while lo < hi and nums[hi] == nums[hi - 1]:
-				hi -= 1
-			mid = lo + (hi - lo) // 2
-			if nums[hi] < nums[mid]:
-				lo = mid + 1
-			else:
-				hi = mid
-		return nums[lo]
+    def findMin(self, nums: List[int]) -> int:
+        """
+        Time: O(N), worst case when all values are the same
+        Space: O(1) 
+        """
+        lo, hi = 0, len(nums) - 1
+        while lo < hi:
+            while lo < hi and nums[lo] == nums[lo + 1]:
+                lo += 1
+            while lo < hi and nums[hi] == nums[hi - 1]:
+                hi -= 1
+            mid = lo + (hi - lo) // 2
+            if nums[hi] < nums[mid]:
+                lo = mid + 1
+            else:
+                hi = mid
+        return nums[lo]

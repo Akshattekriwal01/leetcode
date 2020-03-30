@@ -16,17 +16,17 @@ Minimums are 3, 1, 2, 4, 1, 1, 2, 1, 1, 1.  Sum is 17.
 """
 
 class Solution:
-	def sumSubarrayMins(self, A: List[int]) -> int:
-		n = len(A)
-		left, right = [1] * n, [1] * n
-		stack = []
-		for i in range(n):
-			while stack and stack[-1][0] > A[i]:
-				left[i] += stack.pop()[1]
-			stack.append((A[i], left[i]))
-		stack = []
-		for i in range(n-1, -1, -1):
-			while stack and stack[-1][0] >= A[i]:
-				right[i] += stack.pop()[1]
-			stack.append((A[i], right[i]))
-		return sum(a * l * r for a, l, r in zip(A, left, right))
+    def sumSubarrayMins(self, A: List[int]) -> int:
+        n = len(A)
+        left, right = [1] * n, [1] * n
+        stack = []
+        for i in range(n):
+            while stack and stack[-1][0] > A[i]:
+                left[i] += stack.pop()[1]
+            stack.append((A[i], left[i]))
+        stack = []
+        for i in range(n-1, -1, -1):
+            while stack and stack[-1][0] >= A[i]:
+                right[i] += stack.pop()[1]
+            stack.append((A[i], right[i]))
+        return sum(a * l * r for a, l, r in zip(A, left, right))

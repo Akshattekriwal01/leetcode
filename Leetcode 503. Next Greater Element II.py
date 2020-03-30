@@ -22,22 +22,22 @@ The second 1's next greater number needs to search circularly, which is also 2.
 # Time: O(N)
 # Space: O(N)
 class Solution:
-	def nextGreaterElements(self, nums: List[int]) -> List[int]:
-		"""
-		Monotonic stack
-		"""
-		n = len(nums)
-		res = [-1] * n
-		stack = []
-		for i in range(n):
-			while stack and nums[i] > nums[stack[-1]]:
-				j = stack.pop()
-				res[j] = nums[i]
-			stack.append(i)
-		for i in range(n):
-			while stack and nums[i] > nums[stack[-1]]:
-				j = stack.pop()
-				if res[j] == -1:
-					res[j] = nums[i]
-			stack.append(i)
-		return res
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        """
+        Monotonic stack
+        """
+        n = len(nums)
+        res = [-1] * n
+        stack = []
+        for i in range(n):
+            while stack and nums[i] > nums[stack[-1]]:
+                j = stack.pop()
+                res[j] = nums[i]
+            stack.append(i)
+        for i in range(n):
+            while stack and nums[i] > nums[stack[-1]]:
+                j = stack.pop()
+                if res[j] == -1:
+                    res[j] = nums[i]
+            stack.append(i)
+        return res

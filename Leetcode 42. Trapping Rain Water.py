@@ -13,16 +13,16 @@ Output: 6
 """
 
 class Solution:
-	def trap(self, height: [int]) -> int:
-		"""
-		Monotonic stack: keep a stack of decreasing height index, if there is a raise in height, accumulate trapped water by removing dips in the stack.
-		"""
-		stack = [-1]
-		water = 0
-		for i in range(len(height)):
-			while len(stack) > 1 and height[i] >= height[stack[-1]]:
-				j = stack.pop()
-				h = min(height[i], height[stack[-1]]) - height[j]
-				water += h * (i - stack[-1] - 1)
-			stack.append(i)
-		return water
+    def trap(self, height: [int]) -> int:
+        """
+        Monotonic stack: keep a stack of decreasing height index, if there is a raise in height, accumulate trapped water by removing dips in the stack.
+        """
+        stack = [-1]
+        water = 0
+        for i in range(len(height)):
+            while len(stack) > 1 and height[i] >= height[stack[-1]]:
+                j = stack.pop()
+                h = min(height[i], height[stack[-1]]) - height[j]
+                water += h * (i - stack[-1] - 1)
+            stack.append(i)
+        return water

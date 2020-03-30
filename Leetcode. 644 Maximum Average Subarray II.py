@@ -17,27 +17,27 @@ The answer with the calculation error less than 10-5 will be accepted.
 """
 
 class Solution:
-	def findMaxAverage(self, nums: List[int], k: int) -> float:
-		lo, hi = -10000.0, 10000.0
-		while hi - lo > 1e-5:
-			mid = (lo + hi) / 2
-			if self.exists(nums, k, mid):
-				lo = mid
-			else:
-				hi = mid
-		return lo
-		
-	def exists(self, nums, k, target):
-		cumsum = 0.0
-		for i in range(k):
-			cumsum += nums[i] - target
-		if cumsum >= 0.0:
-			return True
-		prev = prev_min = 0.0
-		for i in range(k, len(nums)):
-			cumsum += nums[i] - target
-			prev += nums[i-k] - target
-			prev_min = min(prev_min, prev)
-			if cumsum >= prev_min:
-				return True
-		return False
+    def findMaxAverage(self, nums: List[int], k: int) -> float:
+        lo, hi = -10000.0, 10000.0
+        while hi - lo > 1e-5:
+            mid = (lo + hi) / 2
+            if self.exists(nums, k, mid):
+                lo = mid
+            else:
+                hi = mid
+        return lo
+        
+    def exists(self, nums, k, target):
+        cumsum = 0.0
+        for i in range(k):
+            cumsum += nums[i] - target
+        if cumsum >= 0.0:
+            return True
+        prev = prev_min = 0.0
+        for i in range(k, len(nums)):
+            cumsum += nums[i] - target
+            prev += nums[i-k] - target
+            prev_min = min(prev_min, prev)
+            if cumsum >= prev_min:
+                return True
+        return False

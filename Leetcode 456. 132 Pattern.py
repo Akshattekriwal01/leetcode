@@ -14,13 +14,13 @@ Explanation: There is no 132 pattern in the sequence.
 """
 
 class Solution:
-	def find132pattern(self, nums: List[int]) -> bool:
-		stack = []
-		num_k = float("-inf")
-		for num in nums[::-1]:
-			if num < num_k:
-				return True
-			while len(stack) > 0 and num > stack[-1]:
-				num_k = stack.pop()
-			stack.append(num)
-		return False
+    def find132pattern(self, nums: List[int]) -> bool:
+        stack = []
+        num_k = float("-inf")
+        for num in nums[::-1]:
+            if num < num_k:
+                return True
+            while len(stack) > 0 and num > stack[-1]:
+                num_k = stack.pop()
+            stack.append(num)
+        return False

@@ -18,20 +18,20 @@ Follow up: Could you improve it to O(n log n) time complexity?
 """
 
 class Solution:
-	def lengthOfLIS(self, nums: List[int]) -> int:
-		"""
-		binary search
-		bisect.bisect_left(arr, x): index of smallest element no less than x
-		bisect.biset_right(arr, x): index of smallest element greater tnan x
-		bisect.bisect_left(arr, x): number of elements less than x
-		bisect.bisect_right(arr, x): number of elements less than or equal to x
-		"""
-		import bisect
-		lis = []
-		for num in nums:
-			if not lis or num > lis[-1]:
-				lis.append(num)
-			else:
-				i = bisect.bisect_left(lis, num)
-				lis[i] = num
-		return len(lis)
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        """
+        binary search
+        bisect.bisect_left(arr, x): index of smallest element no less than x
+        bisect.biset_right(arr, x): index of smallest element greater tnan x
+        bisect.bisect_left(arr, x): number of elements less than x
+        bisect.bisect_right(arr, x): number of elements less than or equal to x
+        """
+        import bisect
+        lis = []
+        for num in nums:
+            if not lis or num > lis[-1]:
+                lis.append(num)
+            else:
+                i = bisect.bisect_left(lis, num)
+                lis[i] = num
+        return len(lis)

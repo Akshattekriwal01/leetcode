@@ -1,11 +1,11 @@
 """
 Given an array arr of positive integers, consider all binary trees such that:
 
-	Each node has either 0 or 2 children;
+    Each node has either 0 or 2 children;
 
-	The values of arr correspond to the values of each leaf in an in-order traversal of the tree.  (Recall that a node is a leaf if and only if it has 0 children.)
+    The values of arr correspond to the values of each leaf in an in-order traversal of the tree.  (Recall that a node is a leaf if and only if it has 0 children.)
 
-	The value of each non-leaf node is equal to the product of the largest leaf value in its left and right subtree respectively.
+    The value of each non-leaf node is equal to the product of the largest leaf value in its left and right subtree respectively.
 
 Among all possible binary trees considered, return the smallest possible sum of the values of each non-leaf node.  It is guaranteed this sum fits into a 32-bit integer.
 
@@ -24,10 +24,10 @@ There are two possible trees.  The first has non-leaf node sum 36, and the secon
 
 """
 class Solution:
-	def mctFromLeafValues1(self, arr: List[int]) -> int:
-		"""
-		dynamic programming
-		"""
+    def mctFromLeafValues1(self, arr: List[int]) -> int:
+        """
+        dynamic programming
+        """
         n = len(arr)
         dp = [[0] * n for _ in range(n)] # dp[i][j] = res by subarry arr[i...j]
         leafs = [[0] * n for _ in range(n)] # leafs[i][j] = max in arr[i...j]
@@ -42,29 +42,29 @@ class Solution:
         return dp[0][n-1]
 
     def mctFromLeafValues2(self, arr: List[int]) -> int:
-    	"""
-    	greedy
-    	"""
-    	res = 0
-    	while len(arr) > 1:
-    		i = arr.index(min(arr))
-    		res += arr[i] * min(arr[i-1:i] + arr[i+1:i+2])
-    		arr.pop(i)
-    	return res
+        """
+        greedy
+        """
+        res = 0
+        while len(arr) > 1:
+            i = arr.index(min(arr))
+            res += arr[i] * min(arr[i-1:i] + arr[i+1:i+2])
+            arr.pop(i)
+        return res
 
     def mctFromLeafValues3(self, arr: List[int]) -> int:
-    	"""
-    	monotonic decreasing stack
-    	"""
-    	stack = []
-    	res = 0
-    	for num in arr:
-    		while stack and num >= stack[-1]:
-    			if len(stack) == 1 or num <= stack[-2]:
-    				res += stack.pop() * num
-    			else:
-    				res += stack.pop() * stack[-1]
-    		stack.append(num)
-    	while len(stack) > 1:
-    		res += stack.pop() * stack[-1]
-    	return res
+        """
+        monotonic decreasing stack
+        """
+        stack = []
+        res = 0
+        for num in arr:
+            while stack and num >= stack[-1]:
+                if len(stack) == 1 or num <= stack[-2]:
+                    res += stack.pop() * num
+                else:
+                    res += stack.pop() * stack[-1]
+            stack.append(num)
+        while len(stack) > 1:
+            res += stack.pop() * stack[-1]
+        return res
