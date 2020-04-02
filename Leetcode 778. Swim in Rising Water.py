@@ -20,7 +20,7 @@ When the depth of water is 3, we can swim anywhere inside the grid.
 """
 
 class Solution:
-    def swimInWater(self, grid: List[List[int]]) -> int:
+    def swimInWater1(self, grid: List[List[int]]) -> int:
         N = len(grid)
         def canSwim(T):
             # iterative dfs is faster than recursive
@@ -48,3 +48,23 @@ class Solution:
             else:
                 lo = mid + 1
         return lo
+
+    def swimInWater2(self, grid: List[List[int]]) -> int:
+        """
+        priority queue
+        time: O(N^2logN)
+        space: O(N^2)
+        """
+        N = len(grid)
+        heap = [(grid[0][0], i, j)]
+        visited = {(0, 0)}
+        ans = 0
+        while heap:
+            d, i, j = heapq.heappop(heap)
+            ans = max(ans, d)
+            if i == N - 1 and j == N - 1:
+                return ans
+            for r, c in [[i + 1, j], [i - 1, j], [i, j - 1], [i, j + 1]]:
+                if 0 <= r < N and 0 <= c < N and (r, c) not in visited:
+                    heapq.heappush(heap, (grid[r][c], r, c))
+                    visited.add((r, c))
