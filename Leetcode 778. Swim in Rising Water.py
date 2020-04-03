@@ -68,3 +68,46 @@ class Solution:
                 if 0 <= r < N and 0 <= c < N and (r, c) not in visited:
                     heapq.heappush(heap, (grid[r][c], r, c))
                     visited.add((r, c))
+
+    def swimInWater3(self, grid: List[List[int]]) -> int:
+        """
+        union find: at time T, connect loc(T) to its four connected neighbors
+        """
+        N = len(grid)
+        loc = {grid[i][j]: (i, j) for i in range(N) for j in range(N)}
+        uf = UnionFind(N * N)
+        for t in range(N*N):
+            i, j = loc[T]
+            for r, c in [[i - 1, j], [i + 1, j], [i, j - 1], [i, j + 1]]:
+                if 0 <= r < N and 0 <= c < N and grid[r][c] <= T:
+                    uf.union(i * N + j, r * N + c)
+            if uf.find(0) == uf.find(N * N - 1):
+                return t
+
+
+class UnionFind:
+    def __init__(self, n):
+        self.id = [i for i in range(n)]
+        self.size = [1 for _ in range(n)]
+
+    def find(self, i):
+        root = i
+        while root != self.id[root]:
+            root = self.id[root]
+        while root != i:
+            j = self.id[i]
+            self.id[i] = root
+            i = j
+        return root
+
+    def union(self, i, j):
+        root_i = self.find(i)
+        root_j = self.find(j)
+        if root_i == root_j:
+            return
+        if self.size[root_i] < self.size[root_j]:
+            self.id[root_i] = root_j
+            self.size[root_j] += self.size[root_i]
+        else:
+            self.id[root_j] = root_i
+            self.size[root_i] += self.size[root_j]
