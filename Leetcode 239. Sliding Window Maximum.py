@@ -38,3 +38,70 @@ class Solution:
             if i >= k - 1:
                 res.append(nums[queue[0]])
         return res
+
+
+"""
+Follow up: https://www.1point3acres.com/bbs/thread-621023-1-1.html
+
+Given a array of integers, find the longest subarray, in which difference between any two numbers is less than or equal to D.
+"""
+
+class Solution:
+    def longestSubarrayLength(self, nums: List[int], d: int) -> int:
+        import collections
+        res = 0
+        desq = collections.deque([]) # descending queue
+        ascq = collections.deque([]) # ascending queue
+        left = 0
+        for i, a in enumerate(nums):
+            while desq and a > nums[desq[-1]]:
+                desq.pop()
+            while ascq and a < nums[ascq[-1]]:
+                ascq.pop()
+            desq.append(i)
+            ascq.append(i)
+            while nums[desq[0]] - nums[ascq[0]] > d:
+                if desq[0] < ascq[0]:
+                    left = max(left, desq.popleft() + 1)
+                else:
+                    left = max(left, ascq.popleft() + 1)
+            res = max(res, i - left + 1)
+        return res
+
+    def longestSubarrayLength2(self, nums, d: int) -> int:
+        import collections
+        def exist(k):
+            """
+            check if there exist a subarray with length k of required conditions
+            time: O(N)
+            space: O(N)
+            """
+            desq = collections.deque([]) # descending queue
+            ascq = collections.deque([]) # ascending queue
+            for i, a in enumerate(nums):
+                while desq and a > nums[desq[-1]]:
+                    desq.pop()
+                while ascq and a < nums[ascq[-1]]:
+                    ascq.pop()
+                desq.append(i)
+                ascq.append(i)
+                if desq[0] == i - k:
+                    desq.popleft()
+                if ascq[0] == i - k:
+                    ascq.popleft()
+                if i >= k - 1 and nums[desq[0]] - nums[ascq[0]] <= d:
+                    return True
+            return False
+
+        lo, hi = 1, len(nums)
+        while lo <= hi:
+            mid = lo + (hi - lo) // 2
+            if exist(mid):
+                lo = mid + 1
+            else:
+                hi = mid - 1
+        return hi
+
+nums = [4, 8, 6, 5, 9, 7, 2, 3, 1]
+for d in range(9):
+    print(d, Solution().longestSubarrayLength(nums, d))
