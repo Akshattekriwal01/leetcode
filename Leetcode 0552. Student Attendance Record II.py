@@ -23,6 +23,28 @@ Note: The value of n won't exceed 100,000.
 
 class Solution:
     def checkRecord(self, n: int) -> int:
+        # state: (last_letter, num_A, num_L)
+        # last_letter: last letter in the sequence, can be any of "A", "L", "P"
+        # num_A: total count of A in the sequence, should less than 2
+        # num_L: number of L the sequence ended with, should be less than 3
+        if n == 0:
+            return 0
+        MOD = 10 ** 9 + 7
+        prev = {("A", 1, 0): 1, ("P", 0, 0): 1, ("L", 0, 1): 1}
+        for _ in range(2, n + 1):
+            curr = collections.defaultdict(int)
+            for (char, num_A, num_L), cnt in prev.items():
+                cnt %= MOD
+                if num_A == 0:
+                    curr[("A", 1, 0)] = (curr[("A", 1, 0)] + cnt) % MOD
+                if num_L <= 1:
+                    curr[("L", num_A, num_L + 1)] = (curr[("L", num_A, num_L + 1)] + cnt) % MOD
+                curr[("P", num_A, 0)] = (curr[("P", num_A, 0)] + cnt) % MOD
+            prev = curr
+        return sum(prev.values()) % MOD
+
+
+    def checkRecord(self, n: int) -> int:
         """ possible states
                 0: .......A
                 1: ...A...P
