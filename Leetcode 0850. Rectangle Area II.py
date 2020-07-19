@@ -25,6 +25,8 @@ rectanges[i].length = 4
 The total area covered by all rectangles will never exceed 2^63 - 1 and thus will fit in a 64-bit signed integer.
 """
 
+from typing import List
+
 class Solution:
     def rectangleArea(self, rectangles: List[List[int]]) -> int:
         OPEN, CLOSE = 0, 1
@@ -72,19 +74,19 @@ class Solution:
         events.sort()
         X = sorted(X)
         Xi = {x: i for i, x in enumerate(X)}
-        node = SegmentTreeNode(0, len(X) - 1)
+        stree = SegmentTree(X)
         prev_y = 0
         covered = 0
         ans = 0
         for y, x1, x2, typ in events:
             ans += (y - prev_y) * covered
             ans %= MOD
-            covered = node.update(X, Xi[x1], Xi[x2], typ)
+            covered = stree.update(X, Xi[x1], Xi[x2], typ)
             prev_y = y
         return ans
 
 class SegmentTreeNode:
-    def __init__(self, start, end):
+    def __init__(self, start, end, X):
         """
         1. start & end are the indices of x coordinates
         2. at leaf node, start + 1 == end
@@ -96,34 +98,43 @@ class SegmentTreeNode:
         """
         self.start = start
         self.end = end
+        self.mid = (start + end) // 2
+        self.left = None
+        self.right = None
+        self.cover = X[end] - X[start]
         self.count = 0
-        self.covered = 0
-        self._left = self._right = None
+        self.active = 0
 
-    @property
-    def mid(self):
-        return self.start + (self.end - self.start) // 2
+class SegmentTree:
+    def __init__(self, X):
+        self.X = X
+        self.X_i = {x: i for i, x in enumerate(X)}
+        self.root = self.build_tree(0, len(X) - 1)
 
-    @property
-    def left(self):
-        self._left = self._left or SegmentTreeNode(self.start, self.mid) 
-        return self._left
+    def build_tree(self, l, r):
+        if l >= r:
+            return None
+        root = SegmentTreeNode(l, r, self.X)
+        if l + 1 == r:
+            return root
+        mid = (l + r) // 2
+        root.left = self.build_tree(l, mid)
+        root.right = self.build_tree(mid, r)
+        return root
 
-    @property
-    def right(self):
-        self._right = self._right or SegmentTreeNode(self.mid, self.end)
-        return self._right
-
-    def update(self, X, i, j, val):
-        if i >= j:
-            return 0
-        if self.start == i and self.end == j:
-            self.count += val
-        else:
-            self.left.update(X, i, min(self.mid, j), val)
-            self.right.update(X, max(self.mid, i), j, val)
-        if self.count > 0:
-            self.covered = X[self.end] - X[self.start]
-        else:
-            self.covered = self.left.covered + self.right.covered
-        return self.covered
+    def update(self, x1, x2, val):
+        def _update(root, l, r):
+            if l == root.start and r == root.end:
+                root.count += val
+            else:
+                if l < root.mid:
+                    _update(root.left, l, min(root.mid, r))
+                if r > root.mid:
+                    _update(root.right, max(root.mid, l), r)
+            if root.count > 0:
+                root.active = root.cover
+            else:
+                root.active = ((root.left.active if root.left else 0) + 
+                               (root.right.active if root.right else 0))
+            return root.active
+        return _update(self.root, self.X_i[x1], self.X_i[x2])
