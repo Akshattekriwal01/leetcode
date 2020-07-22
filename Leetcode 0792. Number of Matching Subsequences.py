@@ -48,7 +48,6 @@ class Solution:
     def numMatchingSubseq(self, S: str, words: List[str]) -> int:
         """
         using pointers for each word and a pointer for the string S
-        
         """
 
         heads = [[] for _ in range(26)]

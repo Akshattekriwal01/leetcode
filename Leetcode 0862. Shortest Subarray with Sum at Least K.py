@@ -25,9 +25,13 @@ class Solution:
     def shortestSubArray(self, A: List[int], K: int) -> int: 
         """
         Monotonic queue: iterate the array and calculate prefix sum
-            1. when the prefix sum is less than or equal to previous one, the previous should be popped out because the current one would result in a shorter subarray if such subarray exists.
+            1. when the prefix sum is less than or equal to previous one, the
+               previous should be popped out because the current one would result
+               in a shorter subarray if such subarray exists.
             
-            2. start from the front of the queue, if any prefix sum satisfies prefix[j] - prefix[i] >= K, update the length and discard it because a future prefix sum would only increase the length.
+            2. start from the front of the queue, if any prefix sum satisfies 
+               prefix[j] - prefix[i] >= K, update the length and discard it 
+               because a future prefix sum would only increase the length.
         """
         import collections
         queue = collections.deque([(0, -1)])
