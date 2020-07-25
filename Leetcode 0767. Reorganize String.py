@@ -17,6 +17,8 @@ Note:
 
 S will consist of lowercase letters and have length in range [1, 500].
 """
+import heapq
+import collections
 
 class Solution:
     def reorganizeString(self, S: str) -> str:

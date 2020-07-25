@@ -17,6 +17,8 @@ NOTE: input types have been changed on April 15, 2019. Please reset to default c
 
 """
 
+from typing import List
+
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
         intervals.sort(key = lambda itv: itv[0])
