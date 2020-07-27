@@ -61,16 +61,6 @@ class RangeModule:
         if end % 2 == 1:
             newRange.append(end)
         self.track[start:end] = newRange
-        
-
-class SegmentTreeNode:
-    def __init__(self, start, end, left=None, right=None):
-        self.start = start
-        self.end = end
-        self.left = left
-        self.right = right
-        self.tracked = False
-
 # Your RangeModule object will be instantiated and called as such:
 # obj = RangeModule()
 # obj.addRange(left,right)

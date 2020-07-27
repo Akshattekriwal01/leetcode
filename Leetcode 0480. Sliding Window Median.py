@@ -28,6 +28,8 @@ You may assume k is always valid, ie: k is always smaller than input array's siz
 Answers within 10^-5 of the actual value will be accepted as correct.
 
 """
+import heapq
+from typing import List
 
 class Solution:
     def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:

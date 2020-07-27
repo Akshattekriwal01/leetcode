@@ -32,6 +32,7 @@ Note:
 1 <= K <= 1e8
 """
 
+from typing import List
 class Solution:
     def missingElement1(self, nums: List[int], k: int) -> int:
         for i in range(1, len(nums)):

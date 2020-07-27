@@ -41,6 +41,7 @@ The length of board[i] will be in the range [3, 50].
 Each board[i][j] will initially start as an integer in the range [1, 2000].
 """
 
+from typing import List
 class Solution:
     def candyCrush(self, board: List[List[int]]) -> List[List[int]]:
         done = self.crush(board)

@@ -12,25 +12,28 @@ Note:
 If there is no such window in S that covers all characters in T, return the empty string "".
 If there is such window, you are guaranteed that there will always be only one unique minimum window in S.
 """
+import collections
 
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
         t_count = collections.Counter(t)
-        s_count = {}
-        ans = None
-        l = r = seen = 0
-        while r < len(s):
+        s_count = collections.defaultdict(int)
+        covered = 0
+        min_sub_str = ""
+        min_sub_len = float("inf")
+        l = 0
+        for r in range(len(s)):
             if s[r] in t_count:
-                s_count[s[r]] = s_count.get(s[r], 0) + 1
-                if s_count[s[r]] == t_count[s[r]]:
-                    seen += 1
-            while l <= r and seen == len(t_count):
-                if not ans or len(ans) > r - l + 1:
-                    ans = s[l:r+1]
+                s_count[s[r]] += 1
+                if s_count == t_count[s[r]]:
+                    covered += 1
+            while l <= r and covered == len(t_count):
+                if r - l + 1 < min_sub_len:
+                    min_sub_len = r - l + 1
+                    min_sub_str = s[l:r+1]
                 if s[l] in t_count:
                     s_count[s[l]] -= 1
                     if s_count[s[l]] < t_count[s[l]]:
-                        seen -= 1
+                        covered -= 1
                 l += 1
-            r += 1
-        return ans if ans else ""
+        return min_sub_str

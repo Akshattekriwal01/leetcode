@@ -67,5 +67,6 @@ class Solution:
                         # dp[i-1][j]: "*" match more than 1 char
                         dp[i][j] = dp[i][j-2] or dp[i][j-1] or dp[i-1][j]
                     else:
+                        # "*" match 0 char
                         dp[i][j] = dp[i][j-2]
         return dp[m][n]
