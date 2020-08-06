@@ -52,3 +52,20 @@ class Solution:
             cnt += 1 if node.left else 0
             cnt += 1 if node.right else 0
         return True
+
+    def isCompleteTree(self, root: TreeNode) -> bool:
+        if not root:
+            return True
+        deq = collections.deque([(root, 1)])
+        cnt = 1
+        largest_idx = 1
+        while deq:
+            node, idx = deq.popleft()
+            largest_idx = max(largest_idx, idx)
+            if node.left:
+                cnt += 1
+                deq.append((node.left, idx * 2))
+            if node.right:
+                cnt += 1
+                deq.append((node.right, idx * 2 + 1))
+        return largest_idx == cnt

@@ -29,6 +29,9 @@ Note: Do not use class member/global/static variables to store states. Your seri
 #         self.left = None
 #         self.right = None
 
+
+import collections 
+
 class Codec:
 
     def serialize(self, root):
@@ -37,7 +40,17 @@ class Codec:
         :type root: TreeNode
         :rtype: str
         """
-        
+        data = []
+        deq = collections.deque([root])
+        while deq:
+            node = deq.popleft()
+            if node:
+                data.append(str(node.val))
+                deq.append(node.left)
+                deq.append(node.right)
+            else:
+                data.append("None")
+        return ",".join(data)
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -45,3 +58,19 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
+        if data[:4] == "None":
+            return None
+        splits = data.split(",")
+        root = TreeNode(int(splits[0]))
+        deq = collections.deque([root])
+        i = 1
+        while i < len(splits):
+            node = deq.popleft()
+            if splits[i] != "None":
+                node.left = TreeNode(int(splits[i]))
+                deq.append(node.left)
+            if splits[i + 1] != "None":
+                node.right = TreeNode(int(splits[i + 1]))
+                deq.append(node.right)
+            i += 2
+        return root

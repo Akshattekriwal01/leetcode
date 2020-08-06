@@ -34,12 +34,25 @@ class Solution:
         root = TreeNode(preorder[0])
         stack = [root]
         for val in preorder[1:]:
-            node, child = stack[-1], TreeNode(val)
-            while stack and stack[-1].val < val:
-                node = stack.pop()
-            if node.val < val:
-                node.right = child
+            node = TreeNode(val)
+            parent = stack[-1]
+            while stack and val > parent.val:
+                parent = stack.pop()
+            if val < parent.val:
+                parent.left = node
             else:
-                node.left = child
-            stack.append(child)
+                parent.right = node
+            stack.append(node)
         return root
+
+    def bstFromPreorder(self, preorder: List[int]) -> TreeNode:
+        def helper(preorder, lower=float("-inf"), upper=float("inf")):
+            if len(preorder) == 0 or preorder[0] < lower or preorder[0] > upper:
+                return None
+            val = preorder.popleft()
+            root = TreeNode(val)
+            root.left = helper(preorder, lower, val)
+            root.right = helper(preorder, val, upper)
+            return root
+        
+        return helper(collections.deque(preorder))
