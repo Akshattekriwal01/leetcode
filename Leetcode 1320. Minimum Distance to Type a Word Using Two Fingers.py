@@ -67,7 +67,7 @@ class Solution:
         dp = {(26, 26): 0}
         for c in word:
             k = ord(c) - ord("A")
-            tmp = collections.defaultdict(lambda _: float("inf"))
+            tmp = collections.defaultdict(lambda: float("inf"))
             for i, j in dp:
                 tmp[(i, k)] = min(tmp[(i, k)], dp[(i, j)] + dist(j, k))
                 tmp[(k, j)] = min(tmp[(k, j)], dp[(i, j)] + dist(i, k))
