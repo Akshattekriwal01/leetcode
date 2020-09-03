@@ -25,7 +25,28 @@ n-1 <= connections.length <= 10^5
 connections[i][0] != connections[i][1]
 There are no repeated connections.
 """
+import collections
+from typing import List
 
 class Solution:
-    def criticalConnections(self, n: int, 
-        connections: List[List[int]]) -> List[List[int]]:
+    def criticalConnections(self, n: int, connections: List[List[int]]) -> List[List[int]]:
+        graph = collections.defaultdict(list)
+        for u, v in connections:
+            graph[u].append(v)
+            graph[v].append(u)
+        visited = [False for _ in range(n)]
+        lowest = [i for i in range(n)]
+        ans = []
+
+        def dfs(curr, prev, rank):
+            visited[curr] = True
+            lowest[curr] = rank
+            for nei in graph[curr]:
+                if nei == prev: continue
+                if not visited[nei]:
+                    dfs(nei, curr, rank + 1)
+                lowest[curr] = min(lowest[curr], lowest[nei])
+                if lowest[nei] >= rank + 1:
+                    ans.append([curr, nei])
+        dfs(0, -1, 0)
+        return ans

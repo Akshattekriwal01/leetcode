@@ -18,6 +18,8 @@ Example 3:
 Input: ")("
 Output: [""]
 """
+import collections
+from typing import List
 
 class Solution:
     def removeInvalidParentheses(self, s: str) -> List[str]: 
@@ -39,7 +41,7 @@ class Solution:
             res.append("".join(path))
         if i == len(s) or left_to_remove < 0 or right_to_remove < 0 or left < right:
             return
-
+            
         if s[i] == "(":
             self.backtrack(s, i + 1, left, right, left_to_remove - 1, right_to_remove, path, res)
             self.backtrack(s, i + 1, left + 1, right, left_to_remove, right_to_remove, path + ["("], res)
@@ -48,3 +50,26 @@ class Solution:
             self.backtrack(s, i + 1, left, right + 1, left_to_remove, right_to_remove, path + [")"], res)
         else:
             self.backtrack(s, i + 1, left, right, left_to_remove, right_to_remove, path + [s[i]], res)
+
+    def removeInvalidParentheses(self, s: str) -> List[str]: 
+        def isValid(string: str) -> bool:
+            bal = 0
+            for c in string:
+                if c == "(":
+                    bal += 1
+                if c == ")":
+                    bal -= 1
+            return bal == 0
+        
+        ans = set()
+        queue = collections.deque([s])
+        while queue:
+            for _ in range(len(queue)):
+                s = queue.popleft()
+                if isValid(s):
+                    ans.add(s)
+                for i in range(len(s)):
+                    queue.append(s[:i] + s[i+1:])
+            if len(ans) > 0:
+                return list(ans)
+        return [""]
